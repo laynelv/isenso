@@ -1,0 +1,200 @@
+---
+title: "isenso tutorial"
+author: "吕文雷  layne.lv@outlook.com"
+date: '`r Sys.Date()`'
+output: html_document
+vignette: |
+  %\VignetteIndexEntry{isenso} %\VignetteEncoding{UTF-8} %\VignetteEngine{knitr::rmarkdown}
+---
+## Introduction
+
+'isenso' is the abbreviation of intelligent sensory data analysis, a package of R programming for food sensory & consumer data analysis.
+
+## Background
+
+Sensory and consumer tests need to be visualized by statistical methods like ANOVA, PCA,cluster,LSD,etc. so that people who have no professional sensory knowledge can understand better,but current commercial statistical softwares are very expensive and inconvenient,However R is easy to be re-coded when you need a different result because different objectives require different results.
+
+So I create this package to simplify and beautify the results of data analysis of consumer preference,comparative/monodic profiling, flash profiling, sorting.
+
+##1. 'panelperf'- panel and individual performance for descriptive Sensory Tests
+
+Important decisions in R&D projects are taken on the basis of sensory evaluation. Therefore the performance of sensory descriptive panels should be regularly checked to guarantee the reliability and validity of the results.
+This allows determining whether the panel is sufficiently trained or whether it needs further training on specific attributes. It allows to provide feedback to the panellists on their performance and to motivate them.
+
+
+##2. 'comprofile'- comparative profiling
+
+   Comparative Profiling is a descriptive sensory technique used to measure the relative difference between two products for a set of sensory attributes, one product being chosen as the reference sample. The product and the reference sample are presented at the same time, side by side.
+
+Calculate each sensory attribute's mean score and 0.95 confidence interval, use a bar plot with error bar to visualize the results.
+
+###2.1 data structure of input
+```{r results = 'asis',echo=FALSE}
+library(isenso)
+knitr::kable(comprofile_data[,1:8], caption = "Table with kable")
+```
+
+###2.2 data visulization
+```{r, fig.show='hold',fig.height=5, fig.width=6}
+
+comprofile(comprofile_data)[[1]]
+```
+
+The analysis of Comparative Profiling data consists, for each descriptor, in:
+
+•	Computing the mean score (Mean) of product A over all panelists.
+
+•	Computing the standard deviation (SD) of the scores given by all panelists.
+
+Results from these computations are then represented using a bar-chart:
+	
+•	The reference corresponds to the value “0” on the horizontal axis.
+
+•	The extremity of the bar corresponds to the mean score of product A.
+
+•	The upper and lower bound of the error bars define the 95% confidence interval for the mean score (N = number of panelists x number of repetitions ):
+
+	95% Confidence Interval = [mean-2*sd/sqrt(N), mean+2*sd/sqrt(N)]
+	
+This bar chart allows identifying significant differences:
+	
+•	If the error bar crosses the 0-axis, then product A is not significantly different from REF.
+
+•	If the error bar does not cross the 0-axis, then product A is significantly different from REF. In that case the bar is colored in red.
+
+
+##3. 'monprofile'- monodic profiling
+
+descriptive sensory profiling technique used to measure the intensity of each sensory attribute related to the products. Products are evaluated one at a time for all the attributes.
+
+Calculate each sensory attribute's mean score , use a line plot and PCA biplot to visualize the relations between products and attributes.
+
+###3.1 data structure of input
+
+```{r results = 'asis',echo=FALSE}
+library(isenso)
+knitr::kable(monprofile_data[1:8,1:8], caption = "Table with kable")
+```
+
+###3.2 data visulization
+```{r, fig.show='hold',fig.height=5, fig.width=6}
+
+monprofile(monprofile_data)[[1]]
+```
+
+The PCA biplot allows visualizing the correlation structure of sensory attributes:
+
+•	If two attributes point in the same direction, then it is likely that they are positively correlated.
+
+•	If two attributes point in opposite directions, then it is likely that they are negatively correlated.
+
+•	If two attributes point in orthogonal directions, then it is likely that they are only poorly correlated.
+
+
+```{r, fig.show='hold',fig.height=5, fig.width=7}
+
+monprofile(monprofile_data)[[2]]
+```
+
+Data visualization helps to identify differences between two or more products. Generally, only mean sensory profiles are graphically represented. Mean sensory profiles of the products are obtained by averaging the scores given by all assessors. 
+
+The line graph is the  most classical way used for visualizing mean sensory profiles,
+
+##4. 'preference'- Preference mapping analysis or consumer preference tests
+
+###4.1 data structure of input
+
+```{r results = 'asis',echo=FALSE}
+knitr::kable(choc_preference[1:10,], caption = "Table with kable")
+```
+
+Column names are products, row names are the code of consumers.
+
+###4.2 data visulization
+```{r, fig.show='hold',fig.height=5, fig.width=7}
+
+preference(choc_preference)[[2]]
+```
+
+The first step of the Preference Mapping analysis consists in ranking the products according to their overall liking score, allowing to identify the most liked and most disliked products. Multiple comparison tests (Fisher’s LSD), are then performed to assess whether the observed differences between products are significant or not. 
+
+The second step of the Preference mapping analysis consists in identifying the drivers of liking or in other words understanding why the liked products are liked and why the disliked products are disliked. This is achieved by relating overall liking scores with the other data (reasons for liking/disliking, sensory, recipe…). 
+
+The simplest approach that is used to identify drivers of liking consists in computing correlations between the overall liking scores and the other data. A more sophisticated approach consists in mapping the products and the consumers according to the overall liking scores and then projecting product characteristics as supplementary variables on this map. The term Preference Mapping comes from this particular technique.
+
+
+```{r, fig.show='hold',fig.height=5, fig.width=6}
+
+preference(choc_preference)[[1]]
+```
+
+The third step of the Preference mapping analysis consists in identifying groups of consumers that have similar liking patterns. It is indeed often observed that all consumers do not like the same products and that overall liking scores are only the result of diverging opinions. 
+
+Many clustering algorithms exist to identify consumer groups with similar liking patterns, but we promote the use of the k-means . 
+
+Once consumer groups are identified, the first two steps of the Preference Mapping analysis are repeated at the group level, with the objective to identify preferences and drivers of liking for each of the groups. Consumer groups can also be visualized on the preference map built in the previous step.
+
+
+
+```{r results = 'asis',echo=FALSE}
+knitr::kable(preference(choc_preference)[[3]], caption = "Table with kable")
+```
+
+The result of LSD value.
+
+##5. 'sorting'- mapping technique consisting in grouping products according to their perceived similarities, then of characterizing the main sensory properties of each product group. 
+
+###5.1 data structure of input
+
+```{r results = 'asis',echo=FALSE}
+knitr::kable(sorting_data[1:8,1:8], caption = "Table with kable")
+```
+
+Sorting is the appropriate method when the objective is to emphasize the product differences at a global level (grouping of the product according to all sensory properties taken in account simultaneously), rather than to quantify each sensory property of each product. This approach provides a mapping of the products according to their perceived similarities and differences.
+
+Sorting is particularly adapted to screen a large number of products, for instance to select products for a consumer test against the competitive universe.
+
+###5.2 data visulization
+```{r, fig.show='hold',fig.height=5, fig.width=7}
+
+sorting(sorting_data)
+```
+
+The sorting methods answers two sensory questions
+
+•	Which products are overall relatively similar and which are overall very different?
+
+•	What are specific sensory characteristics that differentiate products?
+
+##6. 'fprofile'- flash profiling. 
+
+###6.1 data structure of input
+
+```{r results = 'asis',echo=FALSE}
+knitr::kable(fprofile_data[1:20,1:8], caption = "Table with kable")
+```
+
+Descriptive words are generated by the first step free choice profiling, then rank the products.
+
+Flash profiling is a rapid sensory profiling method that provides a mapping of the products in the sensory space. Because there is no common list of attributes between the panelists, the product differences are not quantified on each sensory attributes generated. On the other hand, the time-consuming step of reaching a consensus on the attribute list between the panelists is removed. 
+
+Flash profiling is appropriate when:
+•	a sensory map of the products is needed rapidly
+•	a sensory description of the products is needed, but there is no opportunity to train the panel
+•	the study focuses on individual vocabularies and the variation in the use of sensory attributes between panelists
+
+
+###6.2 data visulization
+```{r, fig.show='hold',fig.height=5, fig.width=7}
+
+fprofile(fprofile_data)[[1]]
+```
+
+
+```{r, fig.show='hold',fig.height=5, fig.width=7}
+
+fprofile(fprofile_data)[[2]]
+```
+
+
+
