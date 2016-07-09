@@ -15,7 +15,6 @@ LazyData: TRUE
 Imports:
     ggplot2,
     factoextra,
-    agricolae
 RoxygenNote: 5.0.1
 Suggests: knitr,
     rmarkdown
