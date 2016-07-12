@@ -2,7 +2,7 @@
 title: "isenso tutorial"
 author: "吕文雷  layne.lv@outlook.com"
 date: '`r Sys.Date()`'
-output: html_document
+output: word_document
 vignette: |
   %\VignetteIndexEntry{isenso} %\VignetteEncoding{UTF-8} %\VignetteEngine{knitr::rmarkdown}
 ---
@@ -14,13 +14,49 @@ vignette: |
 
 Sensory and consumer tests need to be visualized by statistical methods like ANOVA, PCA,cluster,LSD,etc. so that people who have no professional sensory knowledge can understand better,but current commercial statistical softwares are very expensive and inconvenient,However R is easy to be re-coded when you need a different result because different objectives require different results.
 
-So I create this package to simplify and beautify the results of data analysis of consumer preference,comparative/monodic profiling, flash profiling, sorting.
+So I create this package to simplify and beautify the results of data analysis of consumer preference,comparative/monodic profiling, flash profiling, sorting and panel/individual performance validation.
 
-##1. 'panelperf'- panel and individual performance for descriptive Sensory Tests
+##1. 'panelperf' & 'tasterperf'- panel/individual performance for descriptive Sensory Tests
 
 Important decisions in R&D projects are taken on the basis of sensory evaluation. Therefore the performance of sensory descriptive panels should be regularly checked to guarantee the reliability and validity of the results.
-This allows determining whether the panel is sufficiently trained or whether it needs further training on specific attributes. It allows to provide feedback to the panellists on their performance and to motivate them.
+This allows determining whether the panel is sufficiently trained or whether it needs further training on specific attributes. It allows to provide feedback to the panelists on their performance and to motivate them.
 
+###1.1 data structure of panelperf
+```{r results = 'asis',echo=FALSE}
+library(isenso)
+knitr::kable(chocolate[1:8,1:8], caption = "Table with kable")
+```
+
+Data input structure need comply with the examples in this package, so it can run well.
+
+###1.2 data visulization of panelperf
+```{r, fig.show='hold',fig.height=5, fig.width=6}
+
+panelperf(chocolate)[[1]]
+```
+
+Compute attribute~Product*Panelist two-way ANOVAs 
+
+If p-value> 0.05,The panel was not discriminant.This can be due to a lack of difference among the products on this particular attribute. If IT'S a key attribute, re-train the panel.the bars will be filled red.
+
+If p-value<= 0.05,The panel was discriminant for the given attribute.
+
+###1.3 data visulization of tasterperf
+
+F :Compute attribute~Product one-way ANOVAs to asses Individual discrimination  ability,The ratio of variance "between" and "within" products is called "F-ratio" (F-ratio=Between/Within). The better the panelist discriminates, the larger this F-ratio. For this analysis,  F>=2.0 is recommended: Any taster with an F-ratio  2.0 will be considered as discriminant on that attribute.
+
+r :Compute Pearson correlations r to asses Individual agreement with the rest of the panel.Panelists are in agreement if they rate products in the same order and with similar scoring patterns. This can be characterized by a correlation coefficient r.Regard the agreement as satisfactory if r>= 0.8.
+
+```{r, fig.show='hold',fig.height=5, fig.width=7}
+
+tasterperf(chocolate,11)[[1]]
+```
+
+the plot shows the individual discrimination ability and agreement of taster11, first we look at the upper part of the plot,the bars of "F<2" will be blue,and taster11 was not discriminant on "CocoaA","CocoaF","Bitterness","Astringency". so we don't need to consider the r of taster11.
+
+Secondly,look at the r.correlation part, r of "MilkA" of taster11 is "-0.38" and F is "3", it indicate that taster11  discriminated the products in "MilkA" but the taster used the scale in an opposite way compared to the panel. taster11 discriminated the products in "Vanilla"  but there was no (or little) agreement with the panel. both of these conditions Re-train this panelist on this specific attribute Or Retrain the whole panel if several panelists disagree.
+
+The blue is OK, the red need to be re-trained.
 
 ##2. 'comprofile'- comparative profiling
 

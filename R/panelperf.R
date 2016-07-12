@@ -20,7 +20,7 @@ panelperf <-function(data){
   require(ggplot2)
   g <- ggplot(res.p2,aes(x=order,y=p.value))
   
-  g1 <- g+geom_bar(stat = "identity",aes(fill=notsig),width = 0.8)+geom_text(aes(label =p.value, vjust = 1.1, hjust = 0.5),color="grey30",size = 3.5)+theme(axis.text.x = element_text(size = 10, color = "grey20", angle = 45))+scale_x_continuous(breaks = res.p2$order,labels =res.p2$attribute)+scale_fill_manual(values = c('lightseagreen','lightcoral'))+labs(list(title = "Panel Performance (P.value<0.05)", y = "P.value", x = " "))+ guides(fill = "none")
+  g1 <- g+geom_bar(stat = "identity",aes(fill=notsig),width = 0.8)+geom_text(aes(label =p.value, vjust = 1.1, hjust = 0.5),color="grey30",size = 3.5)+theme(axis.text.x = element_text(size = 10, color = "grey20", angle = 45))+scale_fill_manual(values = c('lightseagreen','lightcoral'))+scale_x_continuous(breaks = res.p2$order,labels =res.p2$attribute)+labs(list(title = "Panel Performance (P.value<0.05)", y = "P.value", x = " "))+ guides(fill = "none")
 
   return(list(g1,res.p))
 }

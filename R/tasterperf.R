@@ -1,4 +1,4 @@
-tasterperf2 <- function(data=NULL,ntaster){
+tasterperf <- function(data=NULL,ntaster){
   
   taster <- data.frame(table(data[,2]))
   attribute <- colnames(data[,-c(1:3)])
@@ -10,7 +10,7 @@ tasterperf2 <- function(data=NULL,ntaster){
     indvidual <- subset(data,data[,2]==taster$Var1[ntaster])
     others <- subset(chocolate,data[,2]!=taster$Var1[ntaster])
   }
-  res.aov <- apply(indvidual[,-c(1:3)],2, function(v) aov(v~Product,data=indvidual))
+  res.aov <- apply(indvidual[,-c(1:3)],2, function(v) aov(v~indvidual[,1],data=indvidual))
   
   res.summaryaov <- sapply(res.aov, summary)
   ##extract F-values
@@ -54,7 +54,7 @@ tasterperf2 <- function(data=NULL,ntaster){
   
   
   p <- ggplot(res.tasterperf,aes(order,value))
-  p1 <- p+geom_bar(stat = "identity",aes(fill=res.tasterperf[,3]),width = 0.8)+geom_text(aes(label =value, vjust = 1.1, hjust = 0.5),color="grey30",size = 3.5)+theme(axis.text.x = element_text(size = 10, color = "grey30", angle = 45))+scale_x_continuous(breaks=res.tasterperf$order,labels =res.tasterperf$attribute)+labs(list(title = "Individual discrimination ability & agreement (F >=2,r >=0.8)", y = " ", x = " "))+facet_grid(method ~ ., scales = "free_y",labeller = label_parsed,switch="y")+ scale_fill_discrete(name = ntaster)
+  p1 <- p+geom_bar(stat = "identity",aes(fill=res.tasterperf[,3]),width = 0.6)+geom_text(aes(label =value, vjust = 1.1, hjust = 0.5),color="grey30",size = 3.5)+theme(axis.text.x = element_text(size = 10, color = "grey30", angle = 45))+scale_x_continuous(breaks=res.tasterperf$order,labels =res.tasterperf$attribute)+labs(list(title = "Individual discrimination ability & agreement (F >=2,r >=0.8)", y = " ", x = " "))+facet_grid(method ~ ., scales = "free_y",labeller = label_parsed,switch="y")+ scale_fill_discrete(name = ntaster)
   
   }else{
     colnames(res.F) <- c("attribute","value",as.character(taster$Var1)[ntaster])
@@ -67,7 +67,7 @@ tasterperf2 <- function(data=NULL,ntaster){
     res.tasterperf$order <- as.numeric(as.character(c(1:length(attribute),1:length(attribute))))
     
     p <- ggplot(res.tasterperf,aes(order,value))
-    p1 <- p+geom_bar(stat = "identity",aes(fill=res.tasterperf[,3]),width = 0.8)+geom_text(aes(label =value, vjust = 1.1, hjust = 0.5),color="grey30",size = 3.5)+theme(axis.text.x = element_text(size = 10.5, color = "grey30", angle = 45))+scale_x_continuous(breaks=res.tasterperf$order,labels =res.tasterperf$attribute)+labs(list(title = "Individual discrimination ability & agreement (F >=2,r >=0.8)", y = " ", x = " "))+facet_grid(method ~ ., scales = "free_y",labeller = label_parsed,switch="y")+ scale_fill_discrete(name = as.character(taster$Var1)[ntaster])
+    p1 <- p+geom_bar(stat = "identity",aes(fill=res.tasterperf[,3]),width = 0.6)+geom_text(aes(label =value, vjust = 1.1, hjust = 0.5),color="grey30",size = 3)+theme(axis.text.x = element_text(size = 10.5, color = "grey30", angle = 45))+scale_x_continuous(breaks=res.tasterperf$order,labels =res.tasterperf$attribute)+labs(list(title = "Individual discrimination ability & agreement (F >=2,r >=0.8)", y = " ", x = " "))+facet_grid(method ~ ., scales = "free_y",labeller = label_parsed,switch="y")+ scale_fill_discrete(name = as.character(taster$Var1)[ntaster])
     
   }
   
