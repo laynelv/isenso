@@ -37,7 +37,7 @@ tasterperf <- function(data=NULL,ntaster){
   res.cor <- data.frame(cbind(attribute,round(res.rvalue,2),isOK))
   
   
-  method <- c(rep("F.value",length(attribute)),rep("r.correlation",length(attribute)))
+  method <- c(rep("F.discrimination",length(attribute)),rep("r.agreement",length(attribute)))
 
   require(ggplot2)
   

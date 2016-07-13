@@ -6,6 +6,8 @@ output: word_document
 vignette: |
   %\VignetteIndexEntry{isenso} %\VignetteEncoding{UTF-8} %\VignetteEngine{knitr::rmarkdown}
 ---
+
+
 ## Introduction
 
 'isenso' is the abbreviation of intelligent sensory data analysis, a package of R programming for food sensory & consumer data analysis.
@@ -21,6 +23,13 @@ So I create this package to simplify and beautify the results of data analysis o
 Important decisions in R&D projects are taken on the basis of sensory evaluation. Therefore the performance of sensory descriptive panels should be regularly checked to guarantee the reliability and validity of the results.
 This allows determining whether the panel is sufficiently trained or whether it needs further training on specific attributes. It allows to provide feedback to the panelists on their performance and to motivate them.
 
+It is recommended to select 4 products for performance validation, and use 12 panelists.The selection will depend on the key attributes to focus on and on the magnitude of the differences that are to be detected:
+
+•	If large differences are to be detected, choose extreme samples.
+
+•	If small nuances are to be perceived, select closer samples.
+
+
 ###1.1 data structure of panelperf
 ```{r results = 'asis',echo=FALSE}
 library(isenso)
@@ -31,30 +40,39 @@ Data input structure need comply with the examples in this package, so it can ru
 
 ###1.2 data visulization of panelperf
 ```{r, fig.show='hold',fig.height=5, fig.width=6}
-
+library(isenso)
 panelperf(chocolate)[[1]]
+
 ```
 
-Compute attribute~Product*Panelist two-way ANOVAs 
+    Compute attribute~Product*Panelist two-way ANOVAs 
 
-If p-value> 0.05,The panel was not discriminant.This can be due to a lack of difference among the products on this particular attribute. If IT'S a key attribute, re-train the panel.the bars will be filled red.
+If p-value> 0.05,The panel was not discriminant.This can be due to a lack of difference among the products on this particular attribute. If it'S a key attribute, re-train the panel.the bars will be red.
 
-If p-value<= 0.05,The panel was discriminant for the given attribute.
+If p-value<= 0.05,The panel was discriminant for the given attribute.the bars will be blue.
 
 ###1.3 data visulization of tasterperf
 
-F :Compute attribute~Product one-way ANOVAs to asses Individual discrimination  ability,The ratio of variance "between" and "within" products is called "F-ratio" (F-ratio=Between/Within). The better the panelist discriminates, the larger this F-ratio. For this analysis,  F>=2.0 is recommended: Any taster with an F-ratio  2.0 will be considered as discriminant on that attribute.
+    F :Compute attribute~Product "one-way ANOVAs" 
 
-r :Compute Pearson correlations r to asses Individual agreement with the rest of the panel.Panelists are in agreement if they rate products in the same order and with similar scoring patterns. This can be characterized by a correlation coefficient r.Regard the agreement as satisfactory if r>= 0.8.
+to asses Individual discrimination  ability,The ratio of variance "between" and "within" products is called "F-ratio" (F-ratio=Between/Within). The better the panelist discriminates, the larger this F-ratio. For this analysis,  F>=2.0 is recommended: Any taster with an F-ratio>= 2.0 will be considered as discriminant on that attribute.
 
-```{r, fig.show='hold',fig.height=5, fig.width=7}
+    r :Compute "Pearson correlations" 
+
+to asses Individual agreement with the rest of the panel.Panelists are in agreement if they rate products in the same order and with similar scoring patterns. This can be characterized by a correlation coefficient r.Regard the agreement as satisfactory if r>= 0.8.
+
+```{r, fig.show='hold',fig.height=6, fig.width=8}
 
 tasterperf(chocolate,11)[[1]]
 ```
 
-the plot shows the individual discrimination ability and agreement of taster11, first we look at the upper part of the plot,the bars of "F<2" will be blue,and taster11 was not discriminant on "CocoaA","CocoaF","Bitterness","Astringency". so we don't need to consider the r of taster11.
+the plot shows the individual discrimination ability and agreement of taster11,
 
-Secondly,look at the r.correlation part, r of "MilkA" of taster11 is "-0.38" and F is "3", it indicate that taster11  discriminated the products in "MilkA" but the taster used the scale in an opposite way compared to the panel. taster11 discriminated the products in "Vanilla"  but there was no (or little) agreement with the panel. both of these conditions Re-train this panelist on this specific attribute Or Retrain the whole panel if several panelists disagree.
+first we look at the upper part of the plot,the bars with "F<2" will be red,and taster11 was not discriminant on "CocoaA","CocoaF","Bitterness","Astringency". so we don't need to consider the r value of these attributes of taster11.
+
+Secondly,look at the r.correlation part, r of "MilkA" of taster11 is "-0.38" and F is "3", it indicates that taster11  discriminated the products in "MilkA" but  taster11 used the scale in an opposite way compared to the panel.
+
+taster11 discriminated the products in "Vanilla"  but there was no (or little) agreement with the panel. both of these conditions Re-train the panelist on this specific attribute Or Retrain the whole panel if several panelists disagree.
 
 The blue is OK, the red need to be re-trained.
 
@@ -66,7 +84,7 @@ Calculate each sensory attribute's mean score and 0.95 confidence interval, use 
 
 ###2.1 data structure of input
 ```{r results = 'asis',echo=FALSE}
-library(isenso)
+
 knitr::kable(comprofile_data[,1:8], caption = "Table with kable")
 ```
 
@@ -78,9 +96,9 @@ comprofile(comprofile_data)[[1]]
 
 The analysis of Comparative Profiling data consists, for each descriptor, in:
 
-•	Computing the mean score (Mean) of product A over all panelists.
+•	Computing the mean score (mean) of product A over all panelists.
 
-•	Computing the standard deviation (SD) of the scores given by all panelists.
+•	Computing the standard deviation (sd) of the scores given by all panelists.
 
 Results from these computations are then represented using a bar-chart:
 	
@@ -144,7 +162,7 @@ The line graph is the  most classical way used for visualizing mean sensory prof
 knitr::kable(choc_preference[1:10,], caption = "Table with kable")
 ```
 
-Column names are products, row names are the code of consumers.
+Column names are products, first row  are the codes of consumers.
 
 ###4.2 data visulization
 ```{r, fig.show='hold',fig.height=5, fig.width=7}
@@ -226,11 +244,12 @@ Flash profiling is appropriate when:
 fprofile(fprofile_data)[[1]]
 ```
 
+PCA individual plot shows the hoslistic sensory difference between products.
 
 ```{r, fig.show='hold',fig.height=5, fig.width=7}
 
 fprofile(fprofile_data)[[2]]
 ```
 
-
+PCA biplot shows  vocabularies and the variation in the use of sensory attributes between panelists.
 

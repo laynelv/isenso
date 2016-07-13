@@ -1,13 +1,10 @@
 Package: isenso
 Type: Package
-Title: intelligent sensory tests: a package of R programming for food sensory &
-    consumer evaluations.
+Title: intelligent sensory tests: a package of R programming for food sensory & consumer evaluations.
 Version: 0.1.1
 Author: Layne Lv
 Maintainer: Layne Lv <layne.lv@outlook.com>
-Description: Simplify the process of data analysis of panel/individual performance validation,
-comparative profiling,profiling, flash profiling, sorting and consumer preferences in food sensory
-    analysis.
+Description: Simplify the process of data analysis of panel/individual performance validation,comparative profiling,profiling, flash profiling, sorting and consumer preferences in food sensory analysis.
 Depends:
     R (>= 3.1.0)
 License: GPL-2
