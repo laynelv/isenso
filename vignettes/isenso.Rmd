@@ -70,7 +70,7 @@ the plot shows the individual discrimination ability and agreement of taster11,
 
 first we look at the upper part of the plot,the bars with "F<2" will be red,and taster11 was not discriminant on "CocoaA","CocoaF","Bitterness","Astringency". so we don't need to consider the r value of these attributes of taster11.
 
-Secondly,look at the r.correlation part, r of "MilkA" of taster11 is "-0.38" and F is "3", it indicates that taster11  discriminated the products in "MilkA" but  taster11 used the scale in an opposite way compared to the panel.
+Secondly,look at the r.agreement part, r of "MilkA" of taster11 is "-0.38" and F is "3", it indicates that taster11  discriminated the products in "MilkA" but  taster11 used the scale in an opposite way compared to the panel.
 
 taster11 discriminated the products in "Vanilla"  but there was no (or little) agreement with the panel. both of these conditions Re-train the panelist on this specific attribute Or Retrain the whole panel if several panelists disagree.
 
