@@ -52,6 +52,7 @@ tasterperf(data = NULL, ntaster)
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
+## compute taster11's discrimination ability and aggreement
 data(chocolate)
 tasterperf(chocolate,"taster11")
 

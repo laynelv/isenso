@@ -2,7 +2,9 @@
 title: "isenso tutorial"
 author: "吕文雷  layne.lv@outlook.com"
 date: '`r Sys.Date()`'
-output: word_document
+output: 
+  pdf_document: 
+    keep_tex: yes
 vignette: |
   %\VignetteIndexEntry{isenso} %\VignetteEncoding{UTF-8} %\VignetteEngine{knitr::rmarkdown}
 ---

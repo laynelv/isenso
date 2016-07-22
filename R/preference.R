@@ -24,6 +24,6 @@ out <- LSD.test(model,"ind", p.adj="bonferroni")
 order <- rownames(out$groups)
 res.lsd <- cbind(out$groups,order)
 
-g <- ggplot(res.lsd,aes(order,means))+geom_bar(aes(fill=M),stat = "identity",width =0.6)+geom_text(aes(label = round(out$groups$means,2), vjust = 1.1, hjust = 0.5),color="black",size = 4)+scale_y_continuous(breaks=seq(min(round(out$groups$means,2)),max(round(out$groups$means,2)),round(out$statistics$LSD,2)))+scale_x_discrete(labels = res.lsd$trt)+ guides(fill = "none")+theme_bw()+labs(title="Mean scores and LSD comparation",y=" ",x=" ")
+g <- ggplot(res.lsd,aes(order,means))+geom_bar(aes(fill=M),stat = "identity",width =0.6)+geom_text(aes(label = round(out$groups$means,2), vjust = 1.1, hjust = 0.5),color="black",size = 4)+scale_y_continuous(breaks=seq(min(round(out$groups$means,2)),max(round(out$groups$means,2)),round(out$statistics$LSD,2)))+scale_x_discrete(labels = res.lsd$trt)+ guides(fill = "none")+theme_bw()+labs(title=paste("Mean scores and multiple comparation. LSD=",round(out$statistics$LSD,2)),y=" ",x=" ")
 return(list(res.biplot,g,round(out$statistics,2)))
 }
