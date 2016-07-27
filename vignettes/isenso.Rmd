@@ -1,12 +1,13 @@
 ---
 title: "isenso tutorial"
-author: "吕文雷  layne.lv@outlook.com"
+author: "layne.lv@outlook.com"
 date: '`r Sys.Date()`'
-output: 
-  pdf_document: 
+output:
+  word_document: default
+  pdf_document:
     keep_tex: yes
-vignette: |
-  %\VignetteIndexEntry{isenso} %\VignetteEncoding{UTF-8} %\VignetteEngine{knitr::rmarkdown}
+    latex_engine: xelatex
+  html_document: default
 ---
 
 

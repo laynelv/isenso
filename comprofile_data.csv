@@ -1,9 +1,0 @@
-product,panelist,repetition,creamwhite,overall odor,hazelnut odor,roasted odor,milky odor,specific odor,overall off-odor,overall flavor,hazelnut flavor,roasted flavor,milky flavor,specific flavor,overall off-flavor,sweetness,thickness,smoothness,persistency
-A,taster01,1,-4,2,2,2,0,0,0,2,1,1,0,0,0,1,0,0,2
-A,taster02,1,-4,1,0,0,0,0,0,1,1,1,0,0,0,0,0,0,1
-A,taster03,1,-4,1,1,0,0,0,0,1,1,1,0,0,0,0,1,-1,0
-A,taster04,1,-5,2,2,0,0,0,0,2,2,1,0,0,0,0,0,0,0
-A,taster05,1,-5,1,1,1,0,0,0,1,1,1,1,0,0,0,1,0,0
-A,taster06,1,-3,2,1,0,0,0,0,1,1,0,-1,0,0,0,1,1,2
-A,taster07,1,-3,2,2,1,1,0,0,2,2,2,0,0,0,1,1,1,1
-A,taster08,1,-4,2,1,1,1,0,0,2,1,1,1,0,0,1,1,1,1
